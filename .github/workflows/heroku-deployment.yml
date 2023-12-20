@@ -19,8 +19,7 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-      - name: add dotenv
-        run: dotnet add package 
+     
       - name: Print MySQL Connection String
         run: |
           echo "MySQL Connection String: ${{ secrets.MYSQL_CONNECTION_STRING }}"
@@ -40,4 +39,4 @@ jobs:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       MYSQL_CONNECTION_STRING: ${{secrets.MYSQL_CONNECTION_STRING}}
-      
+
