@@ -16,8 +16,7 @@ jobs:
       - name: Print MySQL Connection String
         run: |
           echo "MySQL Connection String: ${{ secrets.MYSQL_CONNECTION_STRING }}"
-      - name: Print directory contents
-        run: ls ./app-api
+    
       - name: Log in to Heroku
         run: echo "$HEROKU_API_KEY" | docker login -u _ --password-stdin registry.heroku.com
 
