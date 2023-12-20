@@ -1,0 +1,37 @@
+name: Heroku Deployment
+
+on:
+  push:
+    branches:
+      - main  # Change this to the branch you want to trigger the deployment on
+
+jobs:
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print MySQL Connection String
+        run: |
+          echo "MySQL Connection String: ${{ secrets.MYSQL_CONNECTION_STRING }}"
+      - name: Print directory contents
+        run: ls ./app-api
+      - name: Log in to Heroku
+        run: echo "$HEROKU_API_KEY" | docker login -u _ --password-stdin registry.heroku.com
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build --build-arg MYSQL_CONNECTION_STRING="${{ secrets.MYSQL_CONNECTION_STRING }}" -t registry.heroku.com/time-backend/web ./app-api
+       
+      - name: Heroku Push
+        run: heroku container:push web -a time-backend ./app-api
+      - name: Release to Heroku
+        run: heroku container:release web -a time-backend ./app-api
+
+    env:
+      HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      MYSQL_CONNECTION_STRING: ${{secrets.MYSQL_CONNECTION_STRING}}
+      
+      
