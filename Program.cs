@@ -19,7 +19,10 @@ DotEnv.Load(); // Loading environment variables from .env file
 var environmentVariables = DotEnv.Read();
 
 // Setup dev database here as well.
-
+string ConnectionSTR =
+    environmentVariables.ContainsKey("MYSQL_CONNECTION_STRING") && environmentVariables["MYSQL_CONNECTION_STRING"] != ""
+    ? environmentVariables["MYSQL_CONNECTION_STRING"] : Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING");
+    
 builder.Services.AddDbContext<app_api.Database.TimeTrackerDatabaseContext>(opt =>
 {
     opt.UseMySql(environmentVariables["MYSQL_CONNECTION_STRING"], new MySqlServerVersion(new Version(8, 0, 25)));
