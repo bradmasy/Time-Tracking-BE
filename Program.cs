@@ -22,10 +22,12 @@ var environmentVariables = DotEnv.Read();
 string ConnectionSTR =
     environmentVariables.ContainsKey("MYSQL_CONNECTION_STRING") && environmentVariables["MYSQL_CONNECTION_STRING"] != ""
     ? environmentVariables["MYSQL_CONNECTION_STRING"] : Environment.GetEnvironmentVariable("MYSQL_CONNECTION_STRING");
-    
+
+Console.WriteLine("the connection string is {0}",ConnectionSTR);
+
 builder.Services.AddDbContext<app_api.Database.TimeTrackerDatabaseContext>(opt =>
 {
-    opt.UseMySql(environmentVariables["MYSQL_CONNECTION_STRING"], new MySqlServerVersion(new Version(8, 0, 25)));
+    opt.UseMySql(ConnectionSTR, new MySqlServerVersion(new Version(8, 0, 25)));
 });
 
 var app = builder.Build();
