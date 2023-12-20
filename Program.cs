@@ -25,6 +25,7 @@ string ConnectionSTR =
 
 Console.WriteLine("the connection string is {0}",ConnectionSTR);
 
+
 builder.Services.AddDbContext<app_api.Database.TimeTrackerDatabaseContext>(opt =>
 {
     opt.UseMySql(ConnectionSTR, new MySqlServerVersion(new Version(8, 0, 25)));
