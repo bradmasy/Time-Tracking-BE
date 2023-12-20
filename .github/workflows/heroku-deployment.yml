@@ -23,12 +23,12 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          docker build --build-arg MYSQL_CONNECTION_STRING="${{ secrets.MYSQL_CONNECTION_STRING }}" -t registry.heroku.com/time-backend/web ./app-api
+          docker build --build-arg MYSQL_CONNECTION_STRING="${{ secrets.MYSQL_CONNECTION_STRING }}" -t registry.heroku.com/time-backend/web .
        
       - name: Heroku Push
-        run: heroku container:push web -a time-backend ./app-api
+        run: heroku container:push web -a time-backend
       - name: Release to Heroku
-        run: heroku container:release web -a time-backend ./app-api
+        run: heroku container:release web -a time-backend
 
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
