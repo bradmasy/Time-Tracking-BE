@@ -28,7 +28,14 @@ builder.Services.AddDbContext<app_api.Database.TimeTrackerDatabaseContext>(opt =
     opt.UseMySql(ConnectionSTR, new MySqlServerVersion(new Version(8, 0, 25)));
 });
 
+builder.Services.AddCors(opt => opt.AddPolicy("AllowSpecificOrigin", builder =>
+{
+    builder.WithOrigins("https://time-tracking-af81e.web.app").AllowAnyHeader().AllowAnyMethod();
+}));
+
 var app = builder.Build();
+
+app.UseCors("AllowSpecificOrigin");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
