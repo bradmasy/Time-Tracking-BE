@@ -30,7 +30,7 @@ builder.Services.AddDbContext<app_api.Database.TimeTrackerDatabaseContext>(opt =
 
 builder.Services.AddCors(opt => opt.AddPolicy("AllowSpecificOrigin", builder =>
 {
-    builder.WithOrigins("https://time-tracking-af81e.web.app").AllowAnyHeader().AllowAnyMethod();
+    builder.WithOrigins("https://time-tracking-af81e.web.app", "http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
 }));
 
 var app = builder.Build();
