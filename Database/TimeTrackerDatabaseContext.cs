@@ -11,6 +11,7 @@ namespace app_api.Database
 
         }
         public DbSet<models.User> Users { get; set; }
+        public DbSet<models.Project> Projects {get;set;}
 
 
     }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class UserController : ControllerBase
 {
-    // private readonly ILogger<UserController> _logger;
+    // private rea"donly ILogger<UserController> _logger;
     public readonly DB.TimeTrackerDatabaseContext _context;
     public UserController(DB.TimeTrackerDatabaseContext context)
     {
@@ -57,7 +57,7 @@ public class UserController : ControllerBase
         }
 
 
-        return Ok();
+        return Ok(user);
     }
 
 
@@ -65,7 +65,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> SignUp([FromBody] Models.UserSignup SignupModel)
     {
         Console.WriteLine("/signup HIT");
-
+        Console.WriteLine(SignupModel);
         Models.User user = new Models.User
         {
             Username = SignupModel.Username,
@@ -74,6 +74,8 @@ public class UserController : ControllerBase
             FirstName = SignupModel.FirstName,
             LastName = SignupModel.LastName
         };
+
+        Console.WriteLine(user.ToString());
 
         Type type = typeof(Models.User);
 
@@ -89,7 +91,7 @@ public class UserController : ControllerBase
             }
         }
 
-        var exists =  await _context.Users.Where(u => u.Username == user.Username).FirstOrDefaultAsync();
+        var exists = await _context.Users.Where(u => u.Username == user.Username).FirstOrDefaultAsync();
 
 
         if (exists != null)
@@ -101,6 +103,6 @@ public class UserController : ControllerBase
         var addedUser = _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok(addedUser.Entity);
+        return Created($"/users/{addedUser.Entity.Id}", addedUser.Entity);
     }
 }

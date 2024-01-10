@@ -17,6 +17,15 @@ public class User
     public string EmailAddress { get; set; }
     [Required]
     public string Password { get; set; }
+
+    public DateTime CreatedAt{get;set;} = DateTime.Now;
+        
+    
+
+    public override string ToString()
+    {
+        return "{'Username':" + $"'{Username}', 'FirstName:" + $"'{FirstName}', 'LastName':" + $"'{LastName}', 'EmailAddress':" + $"'{EmailAddress}'" + "}";
+    }
 }
 
 
@@ -29,9 +38,9 @@ public class UserLogin
 
 public class UserSignup
 {
-    public string? FirstName {get;set;}
-    public string? LastName {get;set;}
-    public string? Email {get; set;}
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? Email { get; set; }
     public string? Username { get; set; }
     public string? Password { get; set; }
 
