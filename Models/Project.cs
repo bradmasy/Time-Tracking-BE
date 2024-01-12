@@ -24,6 +24,7 @@ public class Project
     public DateTime FinishDate { get; set; }
     [Required]
     public double ProjectHours { get; set; }
+    public string Description {get;set;} = "";
 
     public DateTime CreatedAt{get;set;} = DateTime.Now;
 }
@@ -43,6 +44,8 @@ public class CreateProject{
     public DateTime FinishDate { get; set; }
     [Required]
     public double ProjectHours { get; set; }
+    public string Description {get;set;} = "";
+
 
 }
 

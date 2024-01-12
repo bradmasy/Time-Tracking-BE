@@ -31,7 +31,8 @@ public class ProjectController: ControllerBase{
             Budget = project.Budget,
             StartDate = project.StartDate,
             FinishDate = project.FinishDate,
-            ProjectHours = project.ProjectHours
+            ProjectHours = project.ProjectHours,
+            Description = project.Description
         };
 
 
