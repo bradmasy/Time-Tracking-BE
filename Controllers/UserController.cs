@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Models = app_api.Models;
 using DB = app_api.Database;
+using Microsoft.AspNetCore.Authorization;
 namespace app_api.Controllers;
 
 using app_api.Models;
 using Google.Api;
 using Microsoft.EntityFrameworkCore;
 
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 

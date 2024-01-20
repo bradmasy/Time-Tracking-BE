@@ -2,3 +2,4 @@ bin/
 obj/
 .env
 ./time-tracking-af81e-firebase-adminsdk-g696m-2c1893c886.json
+.vscode
