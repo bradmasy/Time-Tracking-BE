@@ -1,10 +1,12 @@
 name: Heroku Deployment
 
 on:
-  push:
+  workflow_run:
+    workflows: ["dotnet.yml"]
+    types:
+      - completed
     branches:
-      - main # Change this to the branch you want to trigger the deployment on
-
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
