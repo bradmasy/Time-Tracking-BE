@@ -47,16 +47,22 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidIssuer = "your-issuer", // Replace with your actual issuer
-        ValidAudience = "your-audience", // Replace with your actual audience
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secure-key")), // Replace with your secure key
+        ValidIssuer = "your-issuer", 
+        ValidAudience = "your-audience", 
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-secure-key-with-more-than-128-bits")), // Replace with your secure key
         ValidateIssuer = true,
         ValidateAudience = true,
         ValidateLifetime = true,
-        ValidateIssuerSigningKey = true
+        ValidateIssuerSigningKey = true,
     };
+    options.Authority = "https://your-identity-server";
+
+    options.RequireHttpsMetadata = false; // for development...
+
+
 });
 
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<AuthService>();
 
@@ -66,8 +72,6 @@ var app = builder.Build();
 
 
 app.UseCors("AllowSpecificOrigin");
-app.UseAuthentication();
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
 
@@ -81,9 +85,8 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();

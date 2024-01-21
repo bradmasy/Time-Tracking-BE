@@ -16,11 +16,9 @@ public class AuthController: ControllerBase{
 
     public AuthController(AuthService authService, TimeTrackerDatabaseContext context)
     {
-        Console.WriteLine("here");
         _authService = authService;
         _context = context;
     }
-
 
     [HttpPost("/auth/login")]
     public async Task<IActionResult> Login([FromBody] UserLogin loginModel)
@@ -45,6 +43,6 @@ public class AuthController: ControllerBase{
         string jwtToken = _authService.GenerateJwtToken(user.Id.ToString());
 
         // You can return the token in the response or handle it as needed
-        return Ok(new { Token = jwtToken });
+        return Ok(new { Token = jwtToken , UserId=user.Id});
     }
 }
