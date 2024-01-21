@@ -8,8 +8,15 @@ on:
     branches:
       - main
 jobs:
+  on-success:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+      - run: echo "First workflow was a success"
+
   deploy:
     runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -21,7 +28,7 @@ jobs:
         run: dotnet restore
       - name: Build
         run: dotnet build --no-restore
-     
+
       - name: Log in to Heroku
         run: echo "$HEROKU_API_KEY" | docker login -u _ --password-stdin registry.heroku.com
 
@@ -37,4 +44,3 @@ jobs:
     env:
       HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
       MYSQL_CONNECTION_STRING: ${{secrets.MYSQL_CONNECTION_STRING}}
-
