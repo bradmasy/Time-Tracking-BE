@@ -1,10 +1,6 @@
 using DB = app_api.Database;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
-using Models = app_api.Models;
 using app_api.Models;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
-using FirebaseAdmin.Auth;
 using Microsoft.AspNetCore.Authorization;
 using AUTH = app_api.Services;
 
@@ -73,6 +69,7 @@ public class ProjectController : ControllerBase
 
         return Ok(projects);
     }
+
 
 
 

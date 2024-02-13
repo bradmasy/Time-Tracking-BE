@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_api.Database;
 
@@ -10,9 +11,11 @@ using app_api.Database;
 namespace appapi.Migrations
 {
     [DbContext(typeof(TimeTrackerDatabaseContext))]
-    partial class TimeTrackerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240213043843_MigrationSix")]
+    partial class MigrationSix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace appapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("app_api.Models.Department", b =>
@@ -56,6 +59,9 @@ namespace appapi.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<Guid?>("ProjectId")
+                        .HasColumnType("char(36)");
+
                     b.Property<DateTime>("Updated")
                         .HasColumnType("datetime(6)");
 
@@ -63,36 +69,9 @@ namespace appapi.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Departments");
-                });
+                    b.HasIndex("ProjectId");
 
-            modelBuilder.Entity("app_api.Models.Employee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("app_api.Models.Project", b =>
@@ -132,27 +111,6 @@ namespace appapi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Projects");
-                });
-
-            modelBuilder.Entity("app_api.Models.ProjectDepartment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("DepartmentId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ProjectId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DepartmentId");
-
-                    b.HasIndex("ProjectId");
-
-                    b.ToTable("ProjectDepartments");
                 });
 
             modelBuilder.Entity("app_api.Models.User", b =>
@@ -197,6 +155,10 @@ namespace appapi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("app_api.Models.Project", null)
+                        .WithMany("Departments")
+                        .HasForeignKey("ProjectId");
+
                     b.Navigation("Company");
                 });
 
@@ -211,23 +173,9 @@ namespace appapi.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("app_api.Models.ProjectDepartment", b =>
+            modelBuilder.Entity("app_api.Models.Project", b =>
                 {
-                    b.HasOne("app_api.Models.Department", "Department")
-                        .WithMany()
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("app_api.Models.Project", "Project")
-                        .WithMany()
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Project");
+                    b.Navigation("Departments");
                 });
 #pragma warning restore 612, 618
         }

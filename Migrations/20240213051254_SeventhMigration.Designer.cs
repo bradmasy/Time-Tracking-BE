@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_api.Database;
 
@@ -10,9 +11,11 @@ using app_api.Database;
 namespace appapi.Migrations
 {
     [DbContext(typeof(TimeTrackerDatabaseContext))]
-    partial class TimeTrackerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240213051254_SeventhMigration")]
+    partial class SeventhMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace appapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Company");
                 });
 
             modelBuilder.Entity("app_api.Models.Department", b =>
@@ -63,36 +66,7 @@ namespace appapi.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Departments");
-                });
-
-            modelBuilder.Entity("app_api.Models.Employee", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("Updated")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Employees");
+                    b.ToTable("Department");
                 });
 
             modelBuilder.Entity("app_api.Models.Project", b =>
@@ -152,7 +126,7 @@ namespace appapi.Migrations
 
                     b.HasIndex("ProjectId");
 
-                    b.ToTable("ProjectDepartments");
+                    b.ToTable("ProjectDepartment");
                 });
 
             modelBuilder.Entity("app_api.Models.User", b =>
@@ -214,13 +188,13 @@ namespace appapi.Migrations
             modelBuilder.Entity("app_api.Models.ProjectDepartment", b =>
                 {
                     b.HasOne("app_api.Models.Department", "Department")
-                        .WithMany()
+                        .WithMany("ProjectDepartments")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("app_api.Models.Project", "Project")
-                        .WithMany()
+                        .WithMany("ProjectDepartments")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -228,6 +202,16 @@ namespace appapi.Migrations
                     b.Navigation("Department");
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("app_api.Models.Department", b =>
+                {
+                    b.Navigation("ProjectDepartments");
+                });
+
+            modelBuilder.Entity("app_api.Models.Project", b =>
+                {
+                    b.Navigation("ProjectDepartments");
                 });
 #pragma warning restore 612, 618
         }

@@ -15,11 +15,11 @@ public class Department : Base
     public Guid CompanyId { get; set; }
     public virtual Company Company { get; set; }
 
-    
-    // public Department(string _name, Company _company) : base()
-    // {
-    //     Name = _name;
-    //     Company = _company;
 
-    // }
+}
+
+
+public class DepartmentQuery{
+    public string? ProjectId {get;set;}
+    public string? DepartmentId{get;set;}
 }

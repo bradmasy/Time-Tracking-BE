@@ -27,7 +27,20 @@ public class Project
 
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-    public ICollection<Department>? Departments { get; set; }
+}
+
+public class ProjectDepartment
+{
+    [Key]
+    public Guid Id { get; set; }
+
+    // Foreign keys
+    public Guid ProjectId { get; set; }
+    public Guid DepartmentId { get; set; }
+
+    // Navigation properties
+    public virtual Project Project { get; set; }
+    public virtual Department Department { get; set; }
 }
 
 public class CreateProject
@@ -56,3 +69,8 @@ public class ProjectQuery
 {
     public string? projectId { get; set; }
 }
+
+
+// public class ProjectDepartmentQuery{
+//     public string? projectI
+// }
