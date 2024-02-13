@@ -1,7 +1,6 @@
 namespace app_api.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Google.Cloud.Firestore.V1;
 
 public class Project
 {
@@ -24,18 +23,21 @@ public class Project
     public DateTime FinishDate { get; set; }
     [Required]
     public double ProjectHours { get; set; }
-    public string Description {get;set;} = "";
+    public string Description { get; set; } = "";
 
-    public DateTime CreatedAt{get;set;} = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public ICollection<Department>? Departments { get; set; }
 }
 
-public class CreateProject{
+public class CreateProject
+{
 
     [Required]
     public string Name { get; set; }
 
     public Guid UserId { get; set; }
- 
+
     public double Budget { get; set; } = 00.00;
     [Required]
 
@@ -44,12 +46,13 @@ public class CreateProject{
     public DateTime FinishDate { get; set; }
     [Required]
     public double ProjectHours { get; set; }
-    public string Description {get;set;} = "";
+    public string Description { get; set; } = "";
 
 
 }
 
 
-public class ProjectQuery{
-    public string? UserId {get;set;}
+public class ProjectQuery
+{
+    public string? projectId { get; set; }
 }

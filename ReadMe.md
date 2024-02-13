@@ -4,7 +4,7 @@
 ## To Start
 
 - dotnet build
-- dotnet run
+- <b>dotnet run</b> OR <b>dotnet watch run</b> 
 
 ## Migrations
 

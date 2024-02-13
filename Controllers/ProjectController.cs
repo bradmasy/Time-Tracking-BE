@@ -49,41 +49,31 @@ public class ProjectController : ControllerBase
         return Created($"/project/{addedProject.Entity.Id}", addedProject.Entity);
     }
 
-    // [HttpGet] 
-    // public async Task<IActionResult> Get([FromQuery] ProjectQuery? query){
-    //     List<Project> projects = null;
-    //     if(!string.IsNullOrEmpty(query.UserId)){
-    //         projects = _context.Projects.Where(p => p.UserId.ToString() == query.UserId).ToList();
-    //         Console.WriteLine(projects);
-    //     }
 
-    //     return Ok(projects);
-    // }
     [Authorize]
-
     [HttpGet]
-    public IActionResult Get()
+    public IActionResult Get([FromQuery] ProjectQuery? query)
     {
         Console.WriteLine("/projects HIT");
-        // Extract user information from the JWT token
-        // var info = AuthService.GetUserFromJwt(HttpContext.Request.Headers[""]);
         var userIdClaim = User.FindFirst("sub");
-        Console.WriteLine(userIdClaim);
         var authorizationHeader = HttpContext.Request.Headers["Authorization"];
         var authorizationParts = authorizationHeader.ToString().Split(' ');
         string token = authorizationParts[1];
-        Console.WriteLine(token);
         string userId = _authService.GetUserFromJwt(token);
-        Console.WriteLine(userId);
-        // string userId = userIdClaim.Value;
 
-        // Find projects for the authenticated user
+        if (!string.IsNullOrWhiteSpace(query.projectId))
+        {
+            var project = _context.Projects.Where(p => p.UserId.ToString() == userId && p.Id.ToString() == query.projectId);
+            return Ok(project);
+        }
+
         List<Project> projects = _context.Projects
             .Where(p => p.UserId.ToString() == userId)
             .ToList();
 
-        Console.WriteLine(projects);
-
         return Ok(projects);
     }
+
+
+
 }
