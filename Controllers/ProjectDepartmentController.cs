@@ -20,12 +20,17 @@ public class ProjectDepartmentController : ControllerBase
     }
 
 
-
+    [Authorize]
     [HttpGet]
 
     public IActionResult Get([FromQuery] ProjectQuery? query)
     {
-
+        
+        if(!string.IsNullOrWhiteSpace(query.projectId))
+        {
+            var associatingProjectDepartments = _context.ProjectDepartments.Where(pd => pd.ProjectId.ToString() == query.projectId).ToList();
+            return Ok(associatingProjectDepartments);
+        }
         var projectDepartments = _context.ProjectDepartments.ToList();
 
         return Ok(projectDepartments);

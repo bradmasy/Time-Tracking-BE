@@ -7,6 +7,7 @@ public class Project
 
     [Key]
     public Guid Id { get; set; }
+    public int Version { get; set; } = 1;
 
     [Required]
     public string Name { get; set; }
@@ -37,6 +38,12 @@ public class ProjectDepartment
     // Foreign keys
     public Guid ProjectId { get; set; }
     public Guid DepartmentId { get; set; }
+
+    public double? Hours { get; set; }
+    public double? Actuals { get; set; }
+
+    public double? Forecast { get; set; }
+
 
     // Navigation properties
     public virtual Project Project { get; set; }

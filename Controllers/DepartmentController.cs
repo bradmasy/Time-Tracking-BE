@@ -17,20 +17,28 @@ public class DepartmentController : ControllerBase
 {
     public readonly DB.TimeTrackerDatabaseContext _context;
     private readonly AUTH.AuthService _authService;
-    public DepartmentController(DB.TimeTrackerDatabaseContext context, AUTH.AuthService authService) { 
+    public DepartmentController(DB.TimeTrackerDatabaseContext context, AUTH.AuthService authService)
+    {
 
-         _context = context;
+        _context = context;
         _authService = authService;
     }
 
 
     // [Authorize]
     [HttpGet]
-    public IActionResult Get([FromQuery] DepartmentQuery? query){
-
+    public IActionResult Get([FromQuery] DepartmentQuery? query)
+    {
         Console.WriteLine("/department HIT");
 
-        var departments = _context.Departments.ToList();
+        List<Department> departments;
+
+        if (!string.IsNullOrWhiteSpace(query.DepartmentId))
+        {
+            departments = _context.Departments.Where(dep => dep.Id.ToString() == query.DepartmentId).ToList();
+            return Ok(departments);
+        }
+        departments = _context.Departments.ToList();
         return Ok(departments);
     }
 }

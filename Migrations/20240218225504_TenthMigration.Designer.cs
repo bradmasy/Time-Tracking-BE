@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_api.Database;
 
@@ -10,9 +11,11 @@ using app_api.Database;
 namespace appapi.Migrations
 {
     [DbContext(typeof(TimeTrackerDatabaseContext))]
-    partial class TimeTrackerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240218225504_TenthMigration")]
+    partial class TenthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,9 +130,6 @@ namespace appapi.Migrations
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -143,14 +143,8 @@ namespace appapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<double?>("Actuals")
-                        .HasColumnType("double");
-
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("char(36)");
-
-                    b.Property<double?>("Forecast")
-                        .HasColumnType("double");
 
                     b.Property<double?>("Hours")
                         .HasColumnType("double");
