@@ -75,9 +75,14 @@ public class CreateProject
 public class ProjectQuery
 {
     public string? projectId { get; set; }
+
 }
 
 
-// public class ProjectDepartmentQuery{
-//     public string? projectI
-// }
+public class ProjectDepartmentQuery
+{
+    public string? ProjectDepartmentId { get; set; }
+    public double? Hours { get; set; }
+    public double? Actuals { get; set; }
+    public double? Forecast { get; set; }
+}
