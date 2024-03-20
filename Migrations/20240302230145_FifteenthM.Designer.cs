@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_api.Database;
 
@@ -10,9 +11,11 @@ using app_api.Database;
 namespace appapi.Migrations
 {
     [DbContext(typeof(TimeTrackerDatabaseContext))]
-    partial class TimeTrackerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240302230145_FifteenthM")]
+    partial class FifteenthM
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,38 +173,6 @@ namespace appapi.Migrations
                     b.ToTable("ProjectDepartments");
                 });
 
-            modelBuilder.Entity("app_api.Models.ReconciledProjectDepartment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<double?>("Actuals")
-                        .HasColumnType("double");
-
-                    b.Property<double?>("Forecast")
-                        .HasColumnType("double");
-
-                    b.Property<double?>("Hours")
-                        .HasColumnType("double");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<Guid>("ProjectDepartmentId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProjectDepartmentId");
-
-                    b.ToTable("ReconciledProjectDepartment");
-                });
-
             modelBuilder.Entity("app_api.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -275,17 +246,6 @@ namespace appapi.Migrations
                     b.Navigation("Department");
 
                     b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("app_api.Models.ReconciledProjectDepartment", b =>
-                {
-                    b.HasOne("app_api.Models.ProjectDepartment", "Department")
-                        .WithMany()
-                        .HasForeignKey("ProjectDepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
                 });
 #pragma warning restore 612, 618
         }

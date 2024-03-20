@@ -1,6 +1,7 @@
 namespace app_api.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 public class Project
 {
@@ -35,19 +36,22 @@ public class ProjectDepartment
     [Key]
     public Guid Id { get; set; }
 
-    // Foreign keys
+    //always version 1 to begin
+    // version exists on this entity as the project department is what gets reconciled 
+    public int Version { get; set; } = 1;
+
+    [ForeignKey("Project")]
     public Guid ProjectId { get; set; }
+
+    [ForeignKey("Department")]
+    // [Index("IX_Unique_ProjectId", IsUnique = true)]
     public Guid DepartmentId { get; set; }
 
     public double? Hours { get; set; }
     public double? Actuals { get; set; }
-
     public double? Forecast { get; set; }
-
-
-    // Navigation properties
-    public virtual Project Project { get; set; }
-    public virtual Department Department { get; set; }
+    public virtual Project? Project { get; set; }
+    public virtual Department? Department { get; set; }
 }
 
 public class CreateProject
@@ -85,4 +89,32 @@ public class ProjectDepartmentQuery
     public double? Hours { get; set; }
     public double? Actuals { get; set; }
     public double? Forecast { get; set; }
+}
+
+/**
+* This class represents a project department that has been reconciled. A reconciled project department is a project that has been edited
+* by the project manager, this means their budget, actuals, or forecast could have been changed. The updated project holds the new project data while the
+* reconciled project holds the data of the one last edited.
+*/
+public class ReconciledProjectDepartment
+{
+
+    [Key]
+    public Guid Id { get; set; }
+
+    //always version 1 to begin
+    // version exists on this entity as the project department is what gets reconciled 
+    [Required]
+    public int Version { get; set; }
+
+    [Required]
+    public string Message { get; set; }
+
+    [ForeignKey("ProjectDepartment")]
+    public Guid ProjectDepartmentId { get; set; }
+    public double? Hours { get; set; }
+    public double? Actuals { get; set; }
+    public double? Forecast { get; set; }
+    public virtual ProjectDepartment? Department { get; set; }
+
 }
