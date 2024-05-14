@@ -40,7 +40,7 @@ public class UserController : ControllerBase
 
         string? username = LoginModel.Username;
         string? password = LoginModel.Password;
-
+        
         if (string.IsNullOrEmpty(username))
         {
             return BadRequest(new { Error = "Username cannot be empty or null." });

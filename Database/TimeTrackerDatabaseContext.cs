@@ -16,7 +16,7 @@ namespace app_api.Database
         public DbSet<models.Company> Companies {get;set;}
         public DbSet<models.Department> Departments {get;set;}
         public DbSet<models.Employee> Employees {get;set;}
-        public DbSet<models.ReconciledProjectDepartment> ReconciledProjectDepartment {get;set;}
+        public DbSet<models.ReconciledProjectDepartment> ReconciledProjectDepartments {get;set;}
 
 
     }

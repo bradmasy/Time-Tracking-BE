@@ -115,6 +115,6 @@ public class ReconciledProjectDepartment
     public double? Hours { get; set; }
     public double? Actuals { get; set; }
     public double? Forecast { get; set; }
-    public virtual ProjectDepartment? Department { get; set; }
+    public virtual ProjectDepartment? ProjectDepartment { get; set; }
 
 }

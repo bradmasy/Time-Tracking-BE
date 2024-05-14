@@ -19,7 +19,9 @@ public class Department : Base
 }
 
 
-public class DepartmentQuery{
+public class DepartmentQuery {
     public string? ProjectId {get;set;}
     public string? DepartmentId{get;set;}
+
+    public string? CompanyId {get;set;}
 }

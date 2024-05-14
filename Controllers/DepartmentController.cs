@@ -33,11 +33,24 @@ public class DepartmentController : ControllerBase
 
         List<Department> departments;
 
-        if (!string.IsNullOrWhiteSpace(query.DepartmentId))
+        try
         {
-            departments = _context.Departments.Where(dep => dep.Id.ToString() == query.DepartmentId).ToList();
-            return Ok(departments);
+            if (!string.IsNullOrWhiteSpace(query.CompanyId))
+            {
+                departments = _context.Departments.Where(dep => dep.CompanyId.ToString() == query.CompanyId).ToList();
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.DepartmentId))
+            {
+                departments = _context.Departments.Where(dep => dep.Id.ToString() == query.DepartmentId).ToList();
+                return Ok(departments);
+            }
         }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+
         departments = _context.Departments.ToList();
         return Ok(departments);
     }

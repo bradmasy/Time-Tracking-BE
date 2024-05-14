@@ -10,3 +10,8 @@ public class Company: Base
     public string Name { get; set; }
 
 }
+
+
+public class CompanyQuery{
+    public string? CompanyId {get;set;}
+}
