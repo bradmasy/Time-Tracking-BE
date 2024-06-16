@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_api.Database;
 
@@ -10,9 +11,11 @@ using app_api.Database;
 namespace appapi.Migrations
 {
     [DbContext(typeof(TimeTrackerDatabaseContext))]
-    partial class TimeTrackerDatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20240612023153_MigrationTwenty")]
+    partial class MigrationTwenty
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -217,9 +220,6 @@ namespace appapi.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("EndTime")
                         .HasColumnType("datetime(6)");
