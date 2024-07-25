@@ -38,9 +38,9 @@ public class TimeBlockController : ControllerBase
                 return BadRequest("No Start or End Time Provided. Please Provide Range of Times For Blocks");
             }
 
-            var timeBlocks = _context.TimeBlocks.Where(tb => tb.StartTime >= timeBlockQuery.StartTime).ToList();
+            var timeBlocks = _context.TimeBlocks.Where(tb => tb.StartTime >= timeBlockQuery.StartTime && tb.EndTime <= timeBlockQuery.EndTime).ToList();
+            
             return Ok(timeBlocks);
-
         }
         catch (Exception ex)
         {
