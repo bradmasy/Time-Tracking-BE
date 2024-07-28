@@ -39,7 +39,7 @@ public class TimeBlockController : ControllerBase
             }
 
             var timeBlocks = _context.TimeBlocks.Where(tb => tb.StartTime >= timeBlockQuery.StartTime && tb.EndTime <= timeBlockQuery.EndTime).ToList();
-            
+
             return Ok(timeBlocks);
         }
         catch (Exception ex)
@@ -63,7 +63,6 @@ public class TimeBlockController : ControllerBase
 
         try
         {
-            Console.WriteLine(timeBlock);
             var timeBlockDto = new TimeBlock
             {
                 UserId = timeBlock.UserId,
@@ -86,5 +85,67 @@ public class TimeBlockController : ControllerBase
         }
     }
 
+    [Authorize]
+    [HttpPatch("{id}")]
+    public async Task<IActionResult> Patch(Guid id, [FromBody] TimeBlock timeBlock)
+    {
+        Console.WriteLine("PATCH /TimeBlock");
+        Console.WriteLine(id);
+        Console.WriteLine(timeBlock);
+
+        try
+        {
+
+            var queriedBlock = _context.TimeBlocks.FirstOrDefault(tb => tb.Id == id);
+
+            if (queriedBlock != null)
+            {
+                queriedBlock.UpdatedAt = DateTime.Now;
+                queriedBlock.EndTime = timeBlock.EndTime;
+                queriedBlock.StartTime = timeBlock.StartTime;
+                queriedBlock.ProjectId = timeBlock.ProjectId;
+                queriedBlock.Task = timeBlock.Task;
+
+                await _context.SaveChangesAsync();
+                return Ok(queriedBlock);
+            }
+
+            return BadRequest("No Block with ID Found");
+        }
+
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+
+    [Authorize]
+    [HttpDelete("{id}")]
+
+    public async Task<IActionResult> Delete(Guid id)
+    {
+
+        try
+        {
+            var result = _context.TimeBlocks.FirstOrDefault(tb => tb.Id == id);
+
+            if (result != null)
+            {
+                _context.TimeBlocks.Remove(result);
+
+                await _context.SaveChangesAsync();
+                return Ok("Successfully Deleted");
+            }
+
+            return BadRequest("Time Block not Found with ID");
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+
+        }
+    }
 
 }
