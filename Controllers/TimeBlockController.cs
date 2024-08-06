@@ -90,9 +90,6 @@ public class TimeBlockController : ControllerBase
     public async Task<IActionResult> Patch(Guid id, [FromBody] TimeBlock timeBlock)
     {
         Console.WriteLine("PATCH /TimeBlock");
-        Console.WriteLine(id);
-        Console.WriteLine(timeBlock);
-
         try
         {
 
@@ -126,6 +123,7 @@ public class TimeBlockController : ControllerBase
 
     public async Task<IActionResult> Delete(Guid id)
     {
+        Console.WriteLine("DELETE /TimeBlock");
 
         try
         {
@@ -136,7 +134,7 @@ public class TimeBlockController : ControllerBase
                 _context.TimeBlocks.Remove(result);
 
                 await _context.SaveChangesAsync();
-                return Ok("Successfully Deleted");
+                return Ok(result);
             }
 
             return BadRequest("Time Block not Found with ID");
